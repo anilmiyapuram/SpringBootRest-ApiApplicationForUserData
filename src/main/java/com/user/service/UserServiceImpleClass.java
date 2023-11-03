@@ -18,13 +18,10 @@ public class UserServiceImpleClass implements UserInterface {
 	private UserRepository userRepo;
 	@Override
 	public String saveUser(UserModel user) throws DuplicateRecordException {
-		if (userRepo.existsByMobile(user.getMobile())) {
-            throw new DuplicateRecordException("Mobile number already exists");
-        }
+		if (userRepo.existsById(user.getUserId())) { throw new DuplicateRecordException("User id already exists"); }
+		if (userRepo.existsByMobile(user.getMobile())) { throw new DuplicateRecordException("Mobile number already exists"); }
 
-        if (userRepo.existsByEmail(user.getEmail())) {
-            throw new DuplicateRecordException("Email already exists");
-        }
+        if (userRepo.existsByEmail(user.getEmail())) { throw new DuplicateRecordException("Email already exists"); }
 
         UserDetails userEntity=new UserDetails();
 		BeanUtils.copyProperties(user, userEntity);

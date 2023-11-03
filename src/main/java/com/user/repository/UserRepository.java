@@ -10,7 +10,10 @@ import com.user.model.UserModel;
 
 public interface UserRepository extends JpaRepository<UserDetails, Long> {
        UserDetails findByUserId(long id);
-       boolean existsByMobile(String mobile);
+
+    @Override
+    boolean existsById(Long id);
+    boolean existsByMobile(String mobile);
        boolean existsByEmail(String email);
 	UserDetails save(UserModel user);
 }
