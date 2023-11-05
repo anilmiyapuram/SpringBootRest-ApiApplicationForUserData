@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
     @Override
     boolean existsById(Long id);
     boolean existsByMobile(String mobile);
-       boolean existsByEmail(String email);
+    boolean existsByEmail(String email);
 	UserDetails save(UserModel user);
 }
  
