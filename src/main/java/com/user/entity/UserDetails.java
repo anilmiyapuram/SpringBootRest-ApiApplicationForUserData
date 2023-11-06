@@ -17,10 +17,12 @@ public class UserDetails {
 	@Id
 	@GeneratedValue
 	private long userId;
-	private String name;
+	private String userName;
 	private String email;
 	private String mobile;
+	private String password;
 	private String gender;
 	private int age;
 	private String nationality;
+	private String roles;
 }

@@ -1,4 +1,4 @@
-package com.user.jwt.authentication;
+package authentication;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
