@@ -8,7 +8,7 @@ import com.user.exceptions.UserNotFoundException;
 import com.user.model.UserModel;
 
 public interface UserInterface{
-	public String saveUser(UserModel user)throws DuplicateRecordException;
+	public UserDetails saveUser(UserDetails user)throws DuplicateRecordException;
 	public List<UserDetails> getAllUsers();
 	public UserDetails getUser(Long id) throws UserNotFoundException;
 	public UserDetails updateUser(long id,UserDetails user) throws UserNotFoundException;

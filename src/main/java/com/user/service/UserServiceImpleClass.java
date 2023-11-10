@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.user.entity.UserDetails;
@@ -16,23 +17,29 @@ import com.user.repository.UserRepository;
 public class UserServiceImpleClass implements UserInterface {
 	@Autowired
 	private UserRepository userRepo;
-	@Override
-	public String saveUser(UserModel user) throws DuplicateRecordException {
-		if (userRepo.existsById(user.getUserId())) { throw new DuplicateRecordException("User id already exists"); }
-		if (userRepo.existsByMobile(user.getMobile())) { throw new DuplicateRecordException("Mobile number already exists"); }
+	@Autowired
+	private PasswordEncoder encoder;
 
-        if (userRepo.existsByEmail(user.getEmail())) { throw new DuplicateRecordException("Email already exists"); }
+	// Assuming userDetailsBO is a class representing your user details
+	public UserDetails saveUser(UserDetails userDetails) throws DuplicateRecordException {
+		if (userRepo.existsById(userDetails.getUserId())) {
+			throw new DuplicateRecordException("User id already exists");
+		}
+		if (userRepo.existsByMobile(userDetails.getMobile())) {
+			throw new DuplicateRecordException("Mobile number already exists");
+		}
+		if (userRepo.existsByEmail(userDetails.getEmail())) {
+			throw new DuplicateRecordException("Email already exists");
+		}
 
-        UserDetails userEntity=new UserDetails();
-		BeanUtils.copyProperties(user, userEntity);
-		if(userRepo.save(userEntity)!=null) {
-			return "User Record inserted sucessfully";	
-		}
-		else {
-			return "User Record not inserted";
-		}
-    }
-	
+		// Encode the password before saving
+		String encodedPassword = encoder.encode(userDetails.getPassword());
+		userDetails.setPassword(encodedPassword);
+
+		UserDetails result = userRepo.save(userDetails);
+		return result;
+	}
+
 	public List<UserDetails> getAllUsers(){
 		return userRepo.findAll();
 	}
