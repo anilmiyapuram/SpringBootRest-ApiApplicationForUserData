@@ -15,7 +15,8 @@ public class AuthenticationUserDetails implements UserDetailsService {
     private UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.user.entity.UserDetails userDetails = userRepository.findByEmailIgnoreCase(username)
+        System.out.println("*********"+username+"*********");
+        UserDetails userDetails = userRepository.findByEmailIgnoreCase(username)
                 .orElseThrow(() -> new NoSuchElementException("The requested user with username "+username+" is not found"));
         return (UserDetails) userDetails;
     }

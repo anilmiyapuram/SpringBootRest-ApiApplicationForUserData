@@ -1,6 +1,6 @@
 package com.user.controller;
 
-import com.user.model.UserModel;
+import com.user.model.request.JwtRequestDto;
 import com.user.model.request.JwtResponseDto;
 import com.user.security.JwtHelper;
 import org.slf4j.Logger;
@@ -31,17 +31,17 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<JwtResponseDto> login(@RequestBody UserModel request) {
+    public ResponseEntity<JwtResponseDto> login(@RequestBody JwtRequestDto request) {
 
         this.doAuthenticate(request.getEmail(), request.getPassword());
 
-
+//        System.out.println("*********"+request.getEmail()+"*********");
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         String token = this.helper.generateToken(userDetails);
 
         JwtResponseDto response = JwtResponseDto.builder()
                 .jwtToken(token)
-                .username(userDetails.getUsername()).build();
+                .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
